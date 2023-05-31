@@ -1,22 +1,23 @@
 import React,{useState} from 'react'
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Addtask() {
   const [task, setTask] = useState({description: '', completed: false})
   const taskButton = () => {
     if(task.description.trim() === ''){
-      alert('Please enter a task')
+      toast.error('Please enter a task')
     }
     else{
       axios.post('http://localhost:5000/tasks',task)
       .then(res => {
         console.log(res)
         if(res.status === 200){
-          alert('Task added successfully')
+          toast.success('Task added successfully')
           setTask({description: '', completed: false})
         }
         else{
-          alert('Task could not be added')
+          toast.error('Task could not be added')
         }
       })
       .catch(err => {
@@ -40,6 +41,7 @@ export default function Addtask() {
           Add Task
         </button>
       </div>
+      <Toaster />
     </div>
   )
 }
